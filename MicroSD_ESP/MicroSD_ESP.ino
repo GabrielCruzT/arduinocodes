@@ -1,3 +1,6 @@
+//Programa: Teste modulo cartao micro SD Arduino
+//Autor: Arduino e Cia
+
 #include <SPI.h>
 #include <SD.h>
 
@@ -7,6 +10,10 @@ const int chipSelect = 4;
 void setup()
 {
   Serial.begin(9600);
+
+  Serial.println("Arduino e Cia - Teste de Modulo cartao micro SD");
+  Serial.println("Inicializando cartao SD...");
+
   //Inicia a comunicacao com o modulo SD
   if (!SD.begin(chipSelect))
   {
@@ -19,9 +26,13 @@ void setup()
 }
 
 void loop()
-{  
+{
+  unsigned long currentMillis = millis();
+  
   //Mostra os dados no Serial Monitor
-  Serial.println("Leitura do dia: ");
+  Serial.print("Este arduino esta ligado a ");
+  Serial.print(currentMillis / 1000);
+  Serial.println(" segundos");
 
   //Abre o arquivo datalog.txt
   File dataFile = SD.open("datalog.csv", FILE_WRITE);
@@ -29,13 +40,10 @@ void loop()
   //Grava as informacoes no arquivo
   if (dataFile)
   {
-    dataFile.print("Leitura do dia: " );
-    dataFile.print("Umidade (%): " );
-    dataFile.print("Temperatura (ºC): " );
-    dataFile.print("Pressao (Pa):" );
-    dataFile.print("Altitude: " );
-    dataFile.println("Horario: " );
-    
+    dataFile.print("Este arduino esta ligado a ");
+    dataFile.print(currentMillis / 1000);
+    dataFile.println(" segundos");
+
     //Fecha o arquivo
     dataFile.close();
   }
@@ -45,5 +53,5 @@ void loop()
   {
     Serial.println("Erro ao abrir o arquivo datalog.txt");
   }
-  //delay(2000);
+  delay(2000);
 }
